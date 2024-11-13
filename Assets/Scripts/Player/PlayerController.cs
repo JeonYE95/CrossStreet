@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-    private Vector2 curMovementtInput;
+    private Vector2 curMovementInput;
 
     private Rigidbody _rigidbody;
     private AnimationController aniController;
@@ -31,27 +31,43 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        Vector3 dir = transform.forward * curMovementtInput.y + transform.right * curMovementtInput.x;
-        dir *= moveSpeed;
-        dir.y = _rigidbody.velocity.y;
+        Vector3 dir = Vector3.zero;
 
-        _rigidbody.velocity = dir;
-    }
-
-    void Rotate()
-    {
-        Vector3 direction = new Vector3(curMovementtInput.x, 0, curMovementtInput.y);
-
-        if (direction.magnitude > 0.1f)
+        if (curMovementInput.y > 0) 
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = targetRotation;
+            dir = Vector3.forward;
+        }
+        else if (curMovementInput.y < 0) 
+        {
+            dir = Vector3.back;
+        }
+
+        if (curMovementInput.x < 0) 
+        {
+            dir = Vector3.left;
+        }
+        else if (curMovementInput.x > 0) 
+        {
+            dir = Vector3.right;
+        }
+
+        if (dir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(dir);
+
+            Vector3 velocity = dir * moveSpeed;
+            velocity.y = _rigidbody.velocity.y;
+            _rigidbody.velocity = velocity;
+        }
+        else
+        {
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
         }
     }
 
     private void UpdateAnimation()
     {
-        bool isMoving = curMovementtInput != Vector2.zero;
+        bool isMoving = curMovementInput != Vector2.zero;
         aniController.SetIsMoving(isMoving);
     }
 
@@ -59,11 +75,11 @@ public class PlayerController : MonoBehaviour
     {
         if(context.phase == InputActionPhase.Started)
         {
-            curMovementtInput = context.ReadValue<Vector2>();
+            curMovementInput = context.ReadValue<Vector2>();
         }
         else if(context.phase == InputActionPhase.Canceled)
         {
-            curMovementtInput = Vector2.zero;
+            curMovementInput = Vector2.zero;
         }
     }
 }

@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraConrtroller : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     public Transform player;
-    public Vector3 offset = new Vector3(1, 8, -8);
-    public float cameraSpeed = 0.2f;
+    public Vector3 offset = new Vector3(1, 7, -5);
 
+    [Header("Rotation")]
+    public float xRotation; 
+    public float yRotation; 
+    public float zRotation; 
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        Vector3 cameraPosition = player.position + offset;
-        Vector3 movePosition = Vector3.Lerp(transform.position, cameraPosition, cameraSpeed);
-        transform.position = movePosition;
+        Vector3 targetPosition = player.position + offset;
+        transform.position = targetPosition;
 
-        transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation); 
     }
 }
