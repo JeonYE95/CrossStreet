@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Car
+  - ClearZone
   layers:
   - Default
   - TransparentFX

@@ -8,5 +8,9 @@ public class PlayerCollision : MonoBehaviour
         {
             GameManager.Instance.GameOver();
         }
+        else if (other.CompareTag("ClearZone"))
+        {
+            GameManager.Instance.GameClear();
+        }
     }
 }
