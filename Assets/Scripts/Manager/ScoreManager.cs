@@ -6,7 +6,6 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance {  get; private set; } 
 
     public int score = 0;
-    public int bestScore;
     public int scoreIncrease = 1;
     private float elapsedTime = 0f; 
 
@@ -17,7 +16,6 @@ public class ScoreManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
         }
         else
         {
